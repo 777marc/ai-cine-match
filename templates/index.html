@@ -3,39 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎬 Movie Trivia Game</title>
+    <title>🎬 Multiplayer Movie Trivia</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="header">
         <div class="emoji">🎬🍿</div>
-        <h1>Movie Trivia Challenge</h1>
-        <p>Test your movie knowledge with AI-powered trivia!</p>
+        <h1>Multiplayer Movie Trivia</h1>
+        <p>Compete with friends in real-time!</p>
       </div>
 
-      <div class="stats">
-        <div class="stat-item">
-          <div class="stat-label">Score</div>
-          <div class="stat-value" id="scoreValue">0</div>
+      <!-- Main Menu -->
+      <div class="main-menu" id="mainMenu">
+        <div class="player-name-input">
+          <h3>Enter Your Name</h3>
+          <input
+            type="text"
+            id="playerNameInput"
+            placeholder="Your name"
+            maxlength="20"
+          />
         </div>
-        <div class="stat-item">
-          <div class="stat-label">Questions</div>
-          <div class="stat-value" id="questionsValue">0</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-label">Accuracy</div>
-          <div class="stat-value" id="accuracyValue">0%</div>
+
+        <div class="menu-buttons">
+          <button class="btn" onclick="showCreateGame()">🎮 Create Game</button>
+          <button class="btn" onclick="showJoinGame()">👥 Join Game</button>
         </div>
       </div>
 
-      <!-- Game Setup Screen -->
-      <div class="game-setup">
+      <!-- Create Game Screen -->
+      <div class="create-game-screen hidden" id="createGameScreen">
+        <h2>Create New Game</h2>
         <div class="difficulty-selector">
-          <h3>Choose Your Difficulty</h3>
+          <h3>Choose Difficulty</h3>
           <div class="difficulty-buttons">
             <button class="difficulty-btn" data-difficulty="easy">
               🌟 Easy
@@ -48,37 +53,114 @@
             </button>
           </div>
         </div>
-        <button class="btn" onclick="startGame()">Start Game</button>
+        <div class="menu-buttons">
+          <button class="btn" onclick="createGame()">Create Game</button>
+          <button class="btn btn-secondary" onclick="backToMenu()">Back</button>
+        </div>
       </div>
 
-      <!-- Game Area -->
-      <div class="game-area">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Generating your next question...</p>
+      <!-- Join Game Screen -->
+      <div class="join-game-screen hidden" id="joinGameScreen">
+        <h2>Join Game</h2>
+        <div class="game-code-input">
+          <input
+            type="text"
+            id="gameCodeInput"
+            placeholder="Enter Game Code"
+            maxlength="8"
+          />
+        </div>
+        <div class="menu-buttons">
+          <button class="btn" onclick="joinGame()">Join Game</button>
+          <button class="btn btn-secondary" onclick="backToMenu()">Back</button>
+        </div>
+      </div>
+
+      <!-- Lobby Screen -->
+      <div class="lobby-screen hidden" id="lobbyScreen">
+        <h2>Game Lobby</h2>
+        <div class="game-code-display">
+          <p>Game Code:</p>
+          <h1 id="gameCodeDisplay" class="game-code">----</h1>
+          <p class="hint">Share this code with friends!</p>
         </div>
 
-        <div class="question-card">
-          <div class="question-text">Loading question...</div>
-          <div class="options">
-            <!-- Options will be dynamically inserted here -->
+        <div class="players-section">
+          <h3>Players (<span id="playerCount">0</span>)</h3>
+          <div id="playersList" class="players-list"></div>
+        </div>
+
+        <div class="menu-buttons" id="hostControls">
+          <button class="btn" onclick="startMultiplayerGame()">
+            Start Game
+          </button>
+          <button class="btn btn-secondary" onclick="leaveLobby()">
+            Leave
+          </button>
+        </div>
+        <div class="menu-buttons hidden" id="guestControls">
+          <button class="btn btn-secondary" onclick="leaveLobby()">
+            Leave
+          </button>
+        </div>
+      </div>
+
+      <!-- Game Screen -->
+      <div class="game-screen hidden" id="gameScreen">
+        <div class="game-header">
+          <div class="question-counter">
+            Question <span id="questionNumber">1</span>
+          </div>
+          <div class="game-code-small">
+            Code: <span id="gameCodeSmall">----</span>
           </div>
         </div>
 
-        <div class="feedback">
-          <!-- Feedback will be shown here -->
+        <div class="leaderboard-compact">
+          <h3>🏆 Leaderboard</h3>
+          <div id="leaderboardCompact"></div>
         </div>
 
-        <div class="controls">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Generating next question...</p>
+        </div>
+
+        <div class="question-card">
+          <div class="question-text" id="questionText">
+            Waiting for question...
+          </div>
+          <div class="options" id="optionsContainer"></div>
+          <div class="waiting-message hidden" id="waitingMessage">
+            <p>⏳ Waiting for other players...</p>
+          </div>
+        </div>
+
+        <div class="feedback hidden" id="feedback"></div>
+
+        <div class="controls" id="hostGameControls">
           <button
-            class="btn"
-            id="nextBtn"
-            onclick="getNewQuestion()"
-            style="display: none"
+            class="btn hidden"
+            id="nextQuestionBtn"
+            onclick="nextQuestion()"
           >
             Next Question
           </button>
-          <button class="btn" onclick="restartGame()">Restart Game</button>
+          <button class="btn btn-secondary" onclick="endGame()">
+            End Game
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div class="results-screen hidden" id="resultsScreen">
+        <h2>🎉 Game Over!</h2>
+        <div class="final-leaderboard" id="finalLeaderboard"></div>
+        <div class="stats-summary">
+          <p>Total Questions: <span id="totalQuestions">0</span></p>
+        </div>
+        <div class="menu-buttons">
+          <button class="btn" onclick="backToMenu()">Back to Menu</button>
         </div>
       </div>
     </div>

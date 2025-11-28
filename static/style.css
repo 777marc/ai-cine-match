@@ -18,9 +18,11 @@ body {
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   padding: 40px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .header {
@@ -39,37 +41,270 @@ body {
   margin-bottom: 10px;
 }
 
-.stats {
-  display: flex;
-  justify-content: space-around;
+.header p {
+  color: #6c757d;
+}
+
+/* Main Menu */
+.main-menu {
+  text-align: center;
+}
+
+.player-name-input {
   margin-bottom: 30px;
+}
+
+.player-name-input h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.player-name-input input {
+  padding: 15px 20px;
+  font-size: 1.1em;
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.player-name-input input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Game Code Display */
+.game-code-display {
+  text-align: center;
+  margin: 30px 0;
+  padding: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  color: white;
+}
+
+.game-code {
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  margin: 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hint {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+/* Game Code Input */
+.game-code-input {
+  margin: 30px 0;
+}
+
+.game-code-input input {
   padding: 20px;
+  font-size: 1.5em;
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: bold;
+}
+
+.game-code-input input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* Players Section */
+.players-section {
+  margin: 30px 0;
+}
+
+.players-section h3 {
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.players-list {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.player-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.host-badge {
+  background: #ffd700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+.player-score {
+  font-weight: bold;
+  color: #667eea;
+}
+
+/* Game Header */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
   background: #f8f9fa;
   border-radius: 10px;
 }
 
-.stat-item {
-  text-align: center;
-}
-
-.stat-label {
-  color: #6c757d;
-  font-size: 0.9em;
-  margin-bottom: 5px;
-}
-
-.stat-value {
-  color: #667eea;
-  font-size: 1.8em;
+.question-counter {
+  font-size: 1.2em;
   font-weight: bold;
+  color: #667eea;
 }
 
-.game-setup {
+.game-code-small {
+  font-weight: 600;
+  color: #6c757d;
+}
+
+/* Leaderboard Compact */
+.leaderboard-compact {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.leaderboard-compact h3 {
+  color: #333;
+  margin-bottom: 15px;
   text-align: center;
 }
 
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.leaderboard-item .rank {
+  font-size: 1.2em;
+  font-weight: bold;
+  min-width: 40px;
+}
+
+.leaderboard-item .name {
+  flex: 1;
+  font-weight: 600;
+  color: #333;
+}
+
+.leaderboard-item .score {
+  font-weight: bold;
+  color: #667eea;
+}
+
+/* Waiting Message */
+.waiting-message {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-size: 1.1em;
+}
+
+/* Final Results */
+.final-leaderboard {
+  margin: 30px 0;
+}
+
+.final-result-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.final-result-item:first-child {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+}
+
+.final-result-item:nth-child(2) {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+}
+
+.final-result-item:nth-child(3) {
+  background: linear-gradient(135deg, #cd7f32 0%, #e6a85c 100%);
+}
+
+.rank-large {
+  font-size: 3em;
+  margin-right: 20px;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name-large {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.player-score-large {
+  font-size: 1.2em;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.stats-summary {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.1em;
+  color: #6c757d;
+}
+/* Difficulty Selector */
 .difficulty-selector {
   margin: 30px 0;
+  text-align: center;
 }
 
 .difficulty-selector h3 {
@@ -131,15 +366,15 @@ body {
   transform: none;
 }
 
-.game-area {
-  display: none;
+.btn-secondary {
+  background: #6c757d;
 }
 
 .question-card {
   background: #f8f9fa;
   padding: 30px;
   border-radius: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .question-text {
@@ -167,7 +402,7 @@ body {
   color: #333;
 }
 
-.option-btn:hover {
+.option-btn:hover:not(:disabled) {
   border-color: #667eea;
   background: #f0f2ff;
   transform: translateX(5px);
@@ -190,7 +425,6 @@ body {
 }
 
 .feedback {
-  display: none;
   padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
@@ -218,6 +452,12 @@ body {
   background: #f8d7da;
   border: 2px solid #dc3545;
   color: #721c24;
+}
+
+.feedback.results {
+  background: #e7f3ff;
+  border: 2px solid #667eea;
+  color: #333;
 }
 
 .feedback h3 {
@@ -262,7 +502,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 600px) {
@@ -274,8 +514,15 @@ body {
     font-size: 2em;
   }
 
-  .stats {
+  .game-code {
+    font-size: 2em;
+  }
+
+  .menu-buttons {
     flex-direction: column;
-    gap: 15px;
+  }
+
+  .btn {
+    width: 100%;
   }
 }
