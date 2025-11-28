@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎬 Movie Trivia Game</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="emoji">🎬🍿</div>
+        <h1>Movie Trivia Challenge</h1>
+        <p>Test your movie knowledge with AI-powered trivia!</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-label">Score</div>
+          <div class="stat-value" id="scoreValue">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Questions</div>
+          <div class="stat-value" id="questionsValue">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Accuracy</div>
+          <div class="stat-value" id="accuracyValue">0%</div>
+        </div>
+      </div>
+
+      <!-- Game Setup Screen -->
+      <div class="game-setup">
+        <div class="difficulty-selector">
+          <h3>Choose Your Difficulty</h3>
+          <div class="difficulty-buttons">
+            <button class="difficulty-btn" data-difficulty="easy">
+              🌟 Easy
+            </button>
+            <button class="difficulty-btn selected" data-difficulty="medium">
+              ⭐ Medium
+            </button>
+            <button class="difficulty-btn" data-difficulty="hard">
+              💫 Hard
+            </button>
+          </div>
+        </div>
+        <button class="btn" onclick="startGame()">Start Game</button>
+      </div>
+
+      <!-- Game Area -->
+      <div class="game-area">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Generating your next question...</p>
+        </div>
+
+        <div class="question-card">
+          <div class="question-text">Loading question...</div>
+          <div class="options">
+            <!-- Options will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <div class="feedback">
+          <!-- Feedback will be shown here -->
+        </div>
+
+        <div class="controls">
+          <button
+            class="btn"
+            id="nextBtn"
+            onclick="getNewQuestion()"
+            style="display: none"
+          >
+            Next Question
+          </button>
+          <button class="btn" onclick="restartGame()">Restart Game</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
